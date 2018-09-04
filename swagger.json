@@ -1,0 +1,1863 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api description for Hustav project",
+    "version": "1.0.0",
+    "title": "Hustav"
+  },
+  "host": "clients.onix-systems.com",
+  "basePath": "/hustav-server/api/v1",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "history",
+      "description": "History"
+    },
+    {
+      "name": "product",
+      "description": "Product"
+    },
+    {
+      "name": "ratings",
+      "description": "Ratings List"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Facebook-Authorization",
+            "description": "Facebook authorization",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Twitter-Authorization",
+            "description": "Twitter authorization",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Twitter-Token-Secret",
+            "description": "Twitter Token Secret",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RegisterResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unable to sign in with your credentials",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "schema": {
+              "$ref": "#/definitions/MethodNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Facebook-Authorization",
+            "description": "Facebook authorization",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Twitter-Authorization",
+            "description": "Twitter authorization",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Twitter-Token-Secret",
+            "description": "Twitter Token Secret",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unable to sign in with your credentials",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "schema": {
+              "$ref": "#/definitions/MethodNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update User Profile",
+        "description": "",
+        "operationId": "userProfile",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Profile",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "401": {
+            "description": "Please specify email and password for auth!",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User Profile",
+        "description": "",
+        "operationId": "getUserProfile",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "400": {
+            "description": "Please specify email and password for auth!",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/forgot-password": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Forgot Password",
+        "description": "",
+        "operationId": "forgotPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Forgot Password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ForgotPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/SuccessData"
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "schema": {
+              "$ref": "#/definitions/MethodNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/history": {
+      "post": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Save history",
+        "description": "",
+        "operationId": "saveHistory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Save history",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/History"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/SuccessData"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get history",
+        "description": "",
+        "operationId": "getHistory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "User id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "Action",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "scan",
+                "ratings",
+                "all"
+              ],
+              "default": "scan"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/GetHistory"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/feed": {
+      "get": {
+        "tags": [
+          "feed"
+        ],
+        "summary": "Feed",
+        "description": "",
+        "operationId": "feed",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ArrayData"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Product",
+        "description": "",
+        "operationId": "product",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UcatProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProductResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/product-manufacturer": {
+      "post": {
+        "tags": [
+          "product-manufacturer"
+        ],
+        "summary": "Product manufacturer",
+        "description": "",
+        "operationId": "product-manufacturer",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product manufacturer",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductManufacturer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ManufacturerResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "post": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Ratings List",
+        "description": "",
+        "operationId": "ratingsList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ratings List",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RatingsList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RatingsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/manufacturers-list": {
+      "post": {
+        "tags": [
+          "manufacturers-list"
+        ],
+        "summary": "Manufacturers list",
+        "description": "",
+        "operationId": "manufacturersList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ratings List",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ManufacturersList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ManufacturersListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/manufacturer": {
+      "post": {
+        "tags": [
+          "manufacturer"
+        ],
+        "summary": "Manufacturer",
+        "description": "",
+        "operationId": "manufacturer",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ratings List",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Manufacturer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ManufacturerDataResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/product-category": {
+      "post": {
+        "tags": [
+          "product-category"
+        ],
+        "summary": "Product category",
+        "description": "",
+        "operationId": "product-category",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product Category",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProductCategoryResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorWithCode"
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "post": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Categories",
+        "description": "",
+        "operationId": "categories",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Categories",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Categories"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CategoriesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/create-product": {
+      "post": {
+        "tags": [
+          "create-product"
+        ],
+        "summary": "Create-product",
+        "description": "",
+        "operationId": "create-product",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create Product",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CreateProductResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    }
+  },
+  "definitions": {
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Auth"
+      }
+    },
+    "Register": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Register"
+      }
+    },
+    "History": {
+      "type": "object",
+      "properties": {
+        "gtin": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "scanned",
+            "viewed",
+            "voted"
+          ]
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "History"
+      }
+    },
+    "UcatProduct": {
+      "type": "object",
+      "properties": {
+        "gtin": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UcatProduct"
+      }
+    },
+    "ProductManufacturer": {
+      "type": "object",
+      "properties": {
+        "gln": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "ProductManufacturer"
+      }
+    },
+    "UserProfile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userImage": {
+          "type": "string"
+        },
+        "Alfa2Code": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserProfile"
+      }
+    },
+    "ForgotPassword": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "ForgotPassword"
+      }
+    },
+    "RatingsList": {
+      "type": "object",
+      "properties": {
+        "gtins": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "RatingsList"
+      }
+    },
+    "Manufacturer": {
+      "type": "object",
+      "properties": {
+        "gln": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Manufacturer"
+      }
+    },
+    "ProductCategory": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "ProductCategory"
+      }
+    },
+    "Categories": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "q": {
+          "type": "string"
+        },
+        "sorting_field": {
+          "type": "string"
+        },
+        "sorting_direction": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Categories"
+      }
+    },
+    "CreateProduct": {
+      "type": "object",
+      "properties": {
+        "recognize_gtin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "average_rating": {
+          "type": "string"
+        },
+        "DescriptionTextRu": {
+          "type": "string"
+        },
+        "DescriptionTextUk": {
+          "type": "string"
+        },
+        "DescriptionTextEn": {
+          "type": "string"
+        },
+        "ManufacturerNameRu": {
+          "type": "string"
+        },
+        "ManufacturerNameUk": {
+          "type": "string"
+        },
+        "ManufacturerNameEn": {
+          "type": "string"
+        },
+        "CountryOfOrigin": {
+          "type": "string"
+        },
+        "FunctionalNameTextRu": {
+          "type": "string"
+        },
+        "FunctionalNameTextUk": {
+          "type": "string"
+        },
+        "FunctionalNameTextEn": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionRu": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionUk": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionEn": {
+          "type": "string"
+        },
+        "UkrZed": {
+          "type": "string"
+        },
+        "CheeseFat": {
+          "type": "string"
+        },
+        "GeneticallyModified": {
+          "type": "string"
+        },
+        "CaloricValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Fats": {
+          "type": "string"
+        },
+        "Carbs": {
+          "type": "string"
+        },
+        "Proteins": {
+          "type": "string"
+        },
+        "PercentageOfAlcohol": {
+          "type": "string"
+        },
+        "Sugar": {
+          "type": "string"
+        },
+        "MinimumLifespanFromArrival": {
+          "type": "string"
+        },
+        "MinimumLifespanFromProduction": {
+          "type": "string"
+        },
+        "StorageHandlingTemperatureMaximum": {
+          "type": "string"
+        },
+        "StorageHandlingTemperatureMinimum": {
+          "type": "string"
+        },
+        "BrandName": {
+          "type": "string"
+        },
+        "Brick": {
+          "type": "string"
+        },
+        "InformationProviderGLN": {
+          "type": "string"
+        },
+        "images": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "CreateProduct"
+      }
+    },
+    "ManufacturersList": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "q": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "ManufacturersList"
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayProfile"
+          }
+        }
+      }
+    },
+    "CategoriesResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayCategories"
+          }
+        }
+      }
+    },
+    "ManufacturersListResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "letter": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "gln": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "imageLogo": {
+                    "type": "string"
+                  },
+                  "targetMarket": {
+                    "type": "string"
+                  },
+                  "sort": {
+                    "type": "string"
+                  },
+                  "countries_nameUk": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ProductResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayProduct"
+          }
+        }
+      }
+    },
+    "RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "token": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "AuthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "token": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "success": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SuccessData": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "0": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ManufacturerResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayProduct"
+          }
+        }
+      }
+    },
+    "RatingsResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "recognize_gtin": {
+                "type": "string"
+              },
+              "average_rating": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CreateProductResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "success": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ManufacturerDataResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "gln": {
+                "type": "string"
+              },
+              "regNumber": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "nameRu": {
+                "type": "string"
+              },
+              "nameUk": {
+                "type": "string"
+              },
+              "nameEn": {
+                "type": "string"
+              },
+              "shortNameRu": {
+                "type": "string"
+              },
+              "shortNameUk": {
+                "type": "string"
+              },
+              "shortNameEn": {
+                "type": "string"
+              },
+              "imageLogo": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "targetMarket": {
+                "type": "string"
+              },
+              "countPublishedProducts": {
+                "type": "string"
+              },
+              "contacts": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "tel": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "address": {
+                "type": "string"
+              },
+              "Alfa2Code": {
+                "type": "string"
+              },
+              "sort": {
+                "type": "string"
+              },
+              "Alfa3Code": {
+                "type": "string"
+              },
+              "LangCode": {
+                "type": "string"
+              },
+              "codeValue": {
+                "type": "string"
+              },
+              "use4Subscription": {
+                "type": "string"
+              },
+              "countries_nameUk": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrayCategories": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "codeValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "nameEn": {
+          "type": "string"
+        },
+        "nameUk": {
+          "type": "string"
+        },
+        "nameRu": {
+          "type": "string"
+        },
+        "typeOfHierarchy": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ArrayProfile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "facebookId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "twitterId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "created": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string"
+        },
+        "userImage": {
+          "type": "string"
+        },
+        "userSmallImage": {
+          "type": "string"
+        },
+        "Alfa2Code": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "userDevices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayUserDevices"
+          }
+        }
+      }
+    },
+    "GetHistory": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayData"
+          }
+        }
+      }
+    },
+    "ProductCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayProduct"
+          }
+        }
+      }
+    },
+    "ArrayProduct": {
+      "type": "object",
+      "properties": {
+        "recognize_gtin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "average_rating": {
+          "type": "string"
+        },
+        "DescriptionTextRu": {
+          "type": "string"
+        },
+        "DescriptionTextUk": {
+          "type": "string"
+        },
+        "DescriptionTextEn": {
+          "type": "string"
+        },
+        "ManufacturerNameRu": {
+          "type": "string"
+        },
+        "ManufacturerNameUk": {
+          "type": "string"
+        },
+        "ManufacturerNameEn": {
+          "type": "string"
+        },
+        "CountryOfOrigin": {
+          "type": "string"
+        },
+        "FunctionalNameTextRu": {
+          "type": "string"
+        },
+        "FunctionalNameTextUk": {
+          "type": "string"
+        },
+        "FunctionalNameTextEn": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionRu": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionUk": {
+          "type": "string"
+        },
+        "AdditionalTradeItemDescriptionEn": {
+          "type": "string"
+        },
+        "UkrZed": {
+          "type": "string"
+        },
+        "CheeseFat": {
+          "type": "string"
+        },
+        "GeneticallyModified": {
+          "type": "string"
+        },
+        "CaloricValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Fats": {
+          "type": "string"
+        },
+        "Carbs": {
+          "type": "string"
+        },
+        "Proteins": {
+          "type": "string"
+        },
+        "PercentageOfAlcohol": {
+          "type": "string"
+        },
+        "Sugar": {
+          "type": "string"
+        },
+        "MinimumLifespanFromArrival": {
+          "type": "string"
+        },
+        "MinimumLifespanFromProduction": {
+          "type": "string"
+        },
+        "StorageHandlingTemperatureMaximum": {
+          "type": "string"
+        },
+        "StorageHandlingTemperatureMinimum": {
+          "type": "string"
+        },
+        "BrandName": {
+          "type": "string"
+        },
+        "InformationProviderLogo": {
+          "type": "string"
+        },
+        "Brick": {
+          "type": "string"
+        },
+        "InformationProviderGLN": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayImages"
+          }
+        },
+        "votes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayVotes"
+          }
+        }
+      }
+    },
+    "ArrayData": {
+      "type": "object",
+      "properties": {
+        "recognize_gtin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "average_rating": {
+          "type": "string"
+        },
+        "DescriptionTextRu": {
+          "type": "string"
+        },
+        "DescriptionTextUk": {
+          "type": "string"
+        },
+        "DescriptionTextEn": {
+          "type": "string"
+        },
+        "ManufacturerNameRu": {
+          "type": "string"
+        },
+        "ManufacturerNameUk": {
+          "type": "string"
+        },
+        "ManufacturerNameEn": {
+          "type": "string"
+        },
+        "BrandName": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayImages"
+          }
+        },
+        "votes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArrayVotes"
+          }
+        }
+      }
+    },
+    "ArrayImages": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "isPlanogram": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ArrayVotes": {
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "userSmallImage": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "created": {
+          "type": "string"
+        }
+      }
+    },
+    "ArrayUserDevices": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "token": {
+          "type": "string"
+        },
+        "lastLogin": {
+          "type": "string"
+        },
+        "production": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "application": {
+          "type": "string"
+        },
+        "userToken": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        }
+      }
+    },
+    "MethodNotAllowed": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorWithCode": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
